@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вакансии</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Список вакансий</h1>
+
+    <!-- Форма для ввода города -->
+    <form method="post" action="/scrape">
+        <label for="city">Введите город:</label>
+        <input type="text" id="city" name="city" required>
+        <button type="submit">Запустить парсер</button>
+    </form>
+
+    <!-- Вывод ошибок -->
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    <!-- Таблица с вакансиями -->
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Название</th>
+                <th>Ссылка</th>
+                <th>Компания</th>
+                <th>Зарплата</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for job in jobs %}
+                <tr>
+                    <td>{{ job.id }}</td>
+                    <td>{{ job.title }}</td>
+                    <td><a href="{{ job.link }}" target="_blank">Ссылка</a></td>
+                    <td>{{ job.company }}</td>
+                    <td>{{ job.salary or "Не указана" }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
